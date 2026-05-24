@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: devfacil-api
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/devfacil}
+    username: ${SPRING_DATASOURCE_USERNAME:devfacil}
+    password: ${SPRING_DATASOURCE_PASSWORD:devfacil}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  rabbitmq:
+    host: rabbitmq
+    port: 5672
+    username: devfacil
+    password: devfacil
+
+server:
+  port: ${SERVER_PORT:8080}

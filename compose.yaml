@@ -1,0 +1,44 @@
+services:
+  postgres:
+    image: docker.io/postgres:16-alpine
+    container_name: devfacil-postgres
+    environment:
+      POSTGRES_DB: devfacil
+      POSTGRES_USER: devfacil
+      POSTGRES_PASSWORD: devfacil
+    ports:
+      - "5432:5432"
+    volumes:
+      - devfacil-postgres-data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: devfacil-rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: devfacil
+      RABBITMQ_DEFAULT_PASS: devfacil
+
+  api:
+    build:
+      context: ./backend
+      dockerfile: Containerfile
+    container_name: devfacil-api
+    depends_on:
+      - postgres
+      - rabbitmq
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/devfacil
+      SPRING_DATASOURCE_USERNAME: devfacil
+      SPRING_DATASOURCE_PASSWORD: devfacil
+      SPRING_RABBITMQ_HOST: rabbitmq
+      SPRING_RABBITMQ_PORT: 5672
+      SPRING_RABBITMQ_USERNAME: devfacil
+      SPRING_RABBITMQ_PASSWORD: devfacil
+    ports:
+      - "8080:8080"
+
+volumes:
+  devfacil-postgres-data:

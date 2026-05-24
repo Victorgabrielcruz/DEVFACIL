@@ -1,0 +1,172 @@
+{
+  "info": {
+    "name": "DevFacil API - Sprint 2",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://127.0.0.1:8080"
+    },
+    {
+      "key": "clienteId",
+      "value": "1"
+    },
+    {
+      "key": "desenvolvedorId",
+      "value": "1"
+    },
+    {
+      "key": "solicitacaoId",
+      "value": "1"
+    }
+  ],
+  "item": [
+    {
+      "name": "Health",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/health"
+      }
+    },
+    {
+      "name": "Criar cliente",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('clienteId', body.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Mariana Costa\",\n  \"telefone\": \"31999990000\",\n  \"email\": \"mariana@empresa.com\",\n  \"empresa\": \"Clinica Vida Digital\"\n}"
+        },
+        "url": "{{baseUrl}}/clientes"
+      }
+    },
+    {
+      "name": "Criar desenvolvedor",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('desenvolvedorId', body.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nome\": \"Lucas Almeida\",\n  \"telefone\": \"31988887777\",\n  \"email\": \"lucas.dev@example.com\",\n  \"stack\": \"Java, Spring Boot, PostgreSQL, Flutter\",\n  \"senioridade\": \"pleno\",\n  \"portfolio_url\": \"https://github.com/lucasalmeida\",\n  \"disponivel\": true\n}"
+        },
+        "url": "{{baseUrl}}/desenvolvedores"
+      }
+    },
+    {
+      "name": "Listar desenvolvedores",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/desenvolvedores"
+      }
+    },
+    {
+      "name": "Criar solicitacao",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const body = pm.response.json();",
+              "pm.collectionVariables.set('solicitacaoId', body.id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"cliente_id\": {{clienteId}},\n  \"tipo_servico\": \"aplicativo_mobile\",\n  \"descricao\": \"Preciso de um aplicativo para agendamento de consultas com login e notificacoes.\",\n  \"requisitos\": \"Flutter no mobile, API REST, painel administrativo simples e banco relacional.\",\n  \"prazo_desejado\": \"45 dias\",\n  \"orcamento_estimado\": 8500.00,\n  \"prioridade\": \"alta\"\n}"
+        },
+        "url": "{{baseUrl}}/solicitacoes"
+      }
+    },
+    {
+      "name": "Listar solicitacoes",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/solicitacoes"
+      }
+    },
+    {
+      "name": "Consultar solicitacao por ID",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/solicitacoes/{{solicitacaoId}}"
+      }
+    },
+    {
+      "name": "Atualizar status da solicitacao",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"aceita\",\n  \"desenvolvedor_id\": {{desenvolvedorId}}\n}"
+        },
+        "url": "{{baseUrl}}/solicitacoes/{{solicitacaoId}}/status"
+      }
+    },
+    {
+      "name": "Listar eventos registrados",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/eventos"
+      }
+    },
+    {
+      "name": "Excluir solicitacao",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/solicitacoes/{{solicitacaoId}}"
+      }
+    }
+  ]
+}
