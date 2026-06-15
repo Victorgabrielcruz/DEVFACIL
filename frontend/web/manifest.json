@@ -1,0 +1,9 @@
+{
+  "name": "DevFacil",
+  "short_name": "DevFacil",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#f7f9fb",
+  "theme_color": "#2563eb",
+  "description": "Plataforma para conectar clientes e desenvolvedores."
+}

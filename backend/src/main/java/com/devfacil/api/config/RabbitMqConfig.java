@@ -64,6 +64,9 @@ public class RabbitMqConfig {
     public static final String DEVELOPMENT_REQUEST_STATUS_CHANGED_ROUTING_KEY =
             "development_request.status_changed";
 
+    public static final String DEVELOPMENT_REQUEST_CANCELLED_ROUTING_KEY =
+            "development_request.cancelled";
+
     /**
      * Declara a exchange de eventos do DevFacil.
      *
@@ -135,6 +138,14 @@ public class RabbitMqConfig {
                 .bind(statusUpdatesQueue())
                 .to(devfacilEventsExchange())
                 .with(DEVELOPMENT_REQUEST_STATUS_CHANGED_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding cancellationUpdatesBinding() {
+        return BindingBuilder
+                .bind(statusUpdatesQueue())
+                .to(devfacilEventsExchange())
+                .with(DEVELOPMENT_REQUEST_CANCELLED_ROUTING_KEY);
     }
 
     /**

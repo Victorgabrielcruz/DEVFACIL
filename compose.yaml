@@ -37,6 +37,10 @@ services:
       SPRING_RABBITMQ_PORT: 5672
       SPRING_RABBITMQ_USERNAME: devfacil
       SPRING_RABBITMQ_PASSWORD: devfacil
+      DEVFACIL_ADMIN_NAME: Admin DevFacil
+      DEVFACIL_ADMIN_EMAIL: admin@devfacil.local
+      DEVFACIL_ADMIN_PASSWORD: admin123
+      DEVFACIL_ADMIN_KEY: devfacil-admin
     ports:
       - "8080:8080"
 
