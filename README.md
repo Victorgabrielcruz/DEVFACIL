@@ -2,26 +2,6 @@
 
 DevFacil e uma plataforma para conectar clientes a desenvolvedores e engenheiros de software para contratacao de servicos como sites, aplicativos, APIs, sistemas web, manutencao e consultoria tecnica.
 
-## Analise do ZIP
-
-O arquivo `stitch_devfacil_platform_design.zip` foi analisado e contem prototipos HTML estaticos, imagens de referencia e um guia visual em `modern_technical_architecture/DESIGN.md`.
-
-Telas encontradas no ZIP:
-
-| Tela | Uso no Flutter |
-| --- | --- |
-| `client_splash_screen` | Entrada visual e identidade do app |
-| `cadastro_de_cliente` | Cadastro/edicao de clientes |
-| `cadastro_de_desenvolvedor` | Cadastro/edicao de desenvolvedores |
-| `client_dashboard` | Painel do cliente |
-| `developer_dashboard` | Painel do desenvolvedor |
-| `available_demands_feed` | Listagem de demandas disponiveis |
-| `new_service_request` | Formulario de solicitacao |
-| `project_tracking_status` | Acoes e acompanhamento de status |
-| `perfil_do_cliente` | Perfil/listagem de clientes |
-| `perfil_do_desenvolvedor` | Perfil/listagem de desenvolvedores |
-| `tech_audit_infrastructure_logs` | Auditoria de RabbitMQ/outbox |
-
 ## Tecnologias usadas
 
 - Backend: Java 17, Spring Boot 3.3, Spring Web, Spring Data JPA, Bean Validation, Spring AMQP.
