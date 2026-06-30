@@ -17,6 +17,18 @@ spring:
     port: 5672
     username: devfacil
     password: devfacil
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
 
 server:
   port: ${SERVER_PORT:8080}
+
+devfacil:
+  auth:
+    secret: ${DEVFACIL_AUTH_SECRET:devfacil-local-secret-change-me}
+    admin-key: ${DEVFACIL_ADMIN_KEY:devfacil-admin}
+    admin-name: ${DEVFACIL_ADMIN_NAME:Admin DevFacil}
+    admin-email: ${DEVFACIL_ADMIN_EMAIL:}
+    admin-password: ${DEVFACIL_ADMIN_PASSWORD:}

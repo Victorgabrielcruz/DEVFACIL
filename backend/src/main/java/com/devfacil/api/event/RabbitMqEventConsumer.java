@@ -1,6 +1,7 @@
 package com.devfacil.api.event;
 
 import com.devfacil.api.config.RabbitMqConfig;
+import com.devfacil.api.service.MessageAuditService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class RabbitMqEventConsumer {
 
+    private final MessageAuditService messageAuditService;
+
+    public RabbitMqEventConsumer(MessageAuditService messageAuditService) {
+        this.messageAuditService = messageAuditService;
+    }
+
     /**
      * Consome eventos de novas solicitacoes criadas.
      *
@@ -25,6 +32,13 @@ public class RabbitMqEventConsumer {
      */
     @RabbitListener(queues = RabbitMqConfig.DEVELOPMENT_REQUESTS_QUEUE)
     public void consumeDevelopmentRequestCreated(DevelopmentRequestEventPayload payload) {
+        messageAuditService.registrarConsumo(
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CREATED_ROUTING_KEY,
+                RabbitMqConfig.EXCHANGE_NAME,
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CREATED_ROUTING_KEY,
+                RabbitMqConfig.DEVELOPMENT_REQUESTS_QUEUE,
+                payload
+        );
         System.out.println(
                 "[RabbitMQ] Nova solicitacao recebida para desenvolvedor: "
                         + "solicitacaoId=" + payload.getSolicitacaoId()
@@ -45,6 +59,16 @@ public class RabbitMqEventConsumer {
      */
     @RabbitListener(queues = RabbitMqConfig.STATUS_UPDATES_QUEUE)
     public void consumeDevelopmentRequestStatusChanged(DevelopmentRequestEventPayload payload) {
+        String routingKey = "cancelada".equals(payload.getStatus())
+                ? RabbitMqConfig.DEVELOPMENT_REQUEST_CANCELLED_ROUTING_KEY
+                : RabbitMqConfig.DEVELOPMENT_REQUEST_STATUS_CHANGED_ROUTING_KEY;
+        messageAuditService.registrarConsumo(
+                routingKey,
+                RabbitMqConfig.EXCHANGE_NAME,
+                routingKey,
+                RabbitMqConfig.STATUS_UPDATES_QUEUE,
+                payload
+        );
         System.out.println(
                 "[RabbitMQ] Atualizacao de status recebida para cliente: "
                         + "solicitacaoId=" + payload.getSolicitacaoId()

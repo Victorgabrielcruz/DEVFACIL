@@ -18,6 +18,8 @@ public record SolicitacaoResponse(
         @JsonProperty("orcamento_estimado") Double orcamentoEstimado,
         Prioridade prioridade,
         StatusSolicitacao status,
+        @JsonProperty("zip_nome") String zipNome,
+        @JsonProperty("motivo_cancelamento") String motivoCancelamento,
         Instant createdAt,
         Instant updatedAt
 ) {
@@ -34,6 +36,8 @@ public record SolicitacaoResponse(
                 solicitacao.getOrcamentoEstimado(),
                 solicitacao.getPrioridade(),
                 solicitacao.getStatus(),
+                solicitacao.getZipNome(),
+                solicitacao.getMotivoCancelamento(),
                 solicitacao.getCreatedAt(),
                 solicitacao.getUpdatedAt()
         );

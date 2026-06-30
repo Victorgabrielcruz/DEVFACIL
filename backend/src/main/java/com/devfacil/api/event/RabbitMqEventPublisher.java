@@ -1,6 +1,7 @@
 package com.devfacil.api.event;
 
 import com.devfacil.api.config.RabbitMqConfig;
+import com.devfacil.api.service.MessageAuditService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class RabbitMqEventPublisher {
 
     private final RabbitTemplate rabbitTemplate;
+    private final MessageAuditService messageAuditService;
 
     /**
      * Cria o publicador usando o RabbitTemplate do Spring.
@@ -23,9 +25,14 @@ public class RabbitMqEventPublisher {
      * o RabbitMQ.
      *
      * @param rabbitTemplate componente de envio de mensagens do Spring AMQP
+     * @param messageAuditService servico responsavel por auditar a mensageria
      */
-    public RabbitMqEventPublisher(RabbitTemplate rabbitTemplate) {
+    public RabbitMqEventPublisher(
+            RabbitTemplate rabbitTemplate,
+            MessageAuditService messageAuditService
+    ) {
         this.rabbitTemplate = rabbitTemplate;
+        this.messageAuditService = messageAuditService;
     }
 
     /**
@@ -41,6 +48,12 @@ public class RabbitMqEventPublisher {
      */
     public void publishDevelopmentRequestCreated(DevelopmentRequestEventPayload payload) {
         rabbitTemplate.convertAndSend(
+                RabbitMqConfig.EXCHANGE_NAME,
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CREATED_ROUTING_KEY,
+                payload
+        );
+        messageAuditService.registrarPublicacao(
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CREATED_ROUTING_KEY,
                 RabbitMqConfig.EXCHANGE_NAME,
                 RabbitMqConfig.DEVELOPMENT_REQUEST_CREATED_ROUTING_KEY,
                 payload
@@ -63,6 +76,26 @@ public class RabbitMqEventPublisher {
         rabbitTemplate.convertAndSend(
                 RabbitMqConfig.EXCHANGE_NAME,
                 RabbitMqConfig.DEVELOPMENT_REQUEST_STATUS_CHANGED_ROUTING_KEY,
+                payload
+        );
+        messageAuditService.registrarPublicacao(
+                RabbitMqConfig.DEVELOPMENT_REQUEST_STATUS_CHANGED_ROUTING_KEY,
+                RabbitMqConfig.EXCHANGE_NAME,
+                RabbitMqConfig.DEVELOPMENT_REQUEST_STATUS_CHANGED_ROUTING_KEY,
+                payload
+        );
+    }
+
+    public void publishDevelopmentRequestCancelled(DevelopmentRequestEventPayload payload) {
+        rabbitTemplate.convertAndSend(
+                RabbitMqConfig.EXCHANGE_NAME,
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CANCELLED_ROUTING_KEY,
+                payload
+        );
+        messageAuditService.registrarPublicacao(
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CANCELLED_ROUTING_KEY,
+                RabbitMqConfig.EXCHANGE_NAME,
+                RabbitMqConfig.DEVELOPMENT_REQUEST_CANCELLED_ROUTING_KEY,
                 payload
         );
     }

@@ -2,6 +2,7 @@ package com.devfacil.api.service;
 
 import com.devfacil.api.dto.DesenvolvedorRequest;
 import com.devfacil.api.exception.ConflitoException;
+import com.devfacil.api.exception.RecursoNaoEncontradoException;
 import com.devfacil.api.model.Desenvolvedor;
 import com.devfacil.api.repository.DesenvolvedorRepository;
 import org.springframework.stereotype.Service;
@@ -38,5 +39,37 @@ public class DesenvolvedorService {
     @Transactional(readOnly = true)
     public List<Desenvolvedor> listar() {
         return desenvolvedorRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Desenvolvedor buscar(Long id) {
+        return desenvolvedorRepository.findById(id)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("desenvolvedor nao encontrado"));
+    }
+
+    @Transactional
+    public Desenvolvedor atualizar(Long id, DesenvolvedorRequest request) {
+        Desenvolvedor desenvolvedor = buscar(id);
+
+        if (desenvolvedorRepository.existsByEmailAndIdNot(request.email(), id)) {
+            throw new ConflitoException("email de desenvolvedor ja cadastrado");
+        }
+
+        desenvolvedor.setNome(request.nome());
+        desenvolvedor.setTelefone(request.telefone());
+        desenvolvedor.setEmail(request.email());
+        desenvolvedor.setStack(request.stack());
+        desenvolvedor.setSenioridade(request.senioridade());
+        desenvolvedor.setPortfolioUrl(request.portfolioUrl());
+        desenvolvedor.setDisponivel(request.disponivel() == null || request.disponivel());
+        return desenvolvedorRepository.save(desenvolvedor);
+    }
+
+    @Transactional
+    public void remover(Long id) {
+        if (!desenvolvedorRepository.existsById(id)) {
+            throw new RecursoNaoEncontradoException("desenvolvedor nao encontrado");
+        }
+        desenvolvedorRepository.deleteById(id);
     }
 }

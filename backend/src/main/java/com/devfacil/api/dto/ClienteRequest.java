@@ -7,6 +7,6 @@ public record ClienteRequest(
         @NotBlank String nome,
         @NotBlank String telefone,
         @Email @NotBlank String email,
-        @NotBlank String empresa
+        String empresa
 ) {
 }

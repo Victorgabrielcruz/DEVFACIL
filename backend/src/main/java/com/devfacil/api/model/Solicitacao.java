@@ -51,6 +51,13 @@ public class Solicitacao {
     @Column(nullable = false)
     private StatusSolicitacao status = StatusSolicitacao.ABERTA;
 
+    private String zipNome;
+
+    private String zipPath;
+
+    @Column(length = 500)
+    private String motivoCancelamento;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt = Instant.now();
 
@@ -136,6 +143,30 @@ public class Solicitacao {
 
     public void setStatus(StatusSolicitacao status) {
         this.status = status;
+    }
+
+    public String getZipNome() {
+        return zipNome;
+    }
+
+    public void setZipNome(String zipNome) {
+        this.zipNome = zipNome;
+    }
+
+    public String getZipPath() {
+        return zipPath;
+    }
+
+    public void setZipPath(String zipPath) {
+        this.zipPath = zipPath;
+    }
+
+    public String getMotivoCancelamento() {
+        return motivoCancelamento;
+    }
+
+    public void setMotivoCancelamento(String motivoCancelamento) {
+        this.motivoCancelamento = motivoCancelamento;
     }
 
     public Instant getCreatedAt() {

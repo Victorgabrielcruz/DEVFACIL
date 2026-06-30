@@ -162,6 +162,13 @@
       }
     },
     {
+      "name": "Listar auditoria de mensageria",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/auditoria-mensageria"
+      }
+    },
+    {
       "name": "Excluir solicitacao",
       "request": {
         "method": "DELETE",
